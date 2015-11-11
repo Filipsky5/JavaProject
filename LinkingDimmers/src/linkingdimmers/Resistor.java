@@ -5,68 +5,52 @@
  */
 package linkingdimmers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author student
  * 
  */
-
-public enum Color {
-    BLACK(1),BROWN(2),RED(3),ORANGE(4),YELLOW(5),GREEN(6),BLUE(7),PURPLE(7),GREY(8),WHITE(9),GOLD(10),SILVER(11);
-    
-    private final int value;
-    private Color(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-    
-    public double getMultiplier() {
-        switch (value) {
-            case(1):
-                return 1;
-            case(2):
-                return 10;
-            case(3):
-                return 100;
-            case(4):
-                return 1000;
-            case(5):
-                return 10000;
-            case(6):
-                return 100000;
-            case(7):
-                return 1000000;
-            case(8):
-                return 10000000;
-            case(9):
-                return 100000000;
-            case(10):
-                return 0.1;
-            case(11):
-                return 0.01;
-            default:
-                return 1;
-        }
-    }
-}
-
 public class Resistor {
-    Color[] LocalResistor;
+    List<Color> Bands;
+    Color Multiplier;
     
-    public float countResistence(int numberOfStripes) {
-        double valueOfresistance = LocalResistor[0].getValue() + LocalResistor[1].getValue();
-        valueOfresistance *= LocalResistor[2].getMultiplier();
+    public Resistor (Color[] stripes) {
+       this.Bands = new ArrayList<Color>();
+       for (Color r : stripes) {
+           this.Bands.add(r);
+       }
+       Multiplier = stripes[stripes.length - 1];
+   }
+    
+    public double countResistence(int numberOfStripes) {
+        double valueOfresistance = 0.0;
+        for (Color c : Bands) {
+            valueOfresistance += c.getValue();
+        }
+        valueOfresistance *= Multiplier.getMultiplier();
         return valueOfresistance;
     }
     
-    public Resistor (int numberOfStripes, Color[] StripesColors) {
-       this.LocalResistor = StripesColors;
-        
+    public boolean addValueToBands(double value, int indexOfStripe) {
+        if (indexOfStripe >= Bands.size()) {
+            return false;
+        }
+        int valueOfStripe = Bands.get(indexOfStripe).getValue();
+        valueOfStripe += value;
+        if (valueOfStripe > 9 || valueOfStripe < 0) {
+            return false;
+        }
+        Bands.set(indexOfStripe,Color.getColorForValue(valueOfStripe));
+        return true;
     }
-    
-   
-    
+    public boolean addValueToMultiplier(double value, int indexOfStripe) {
+        
+        double valueOfMul = Multiplier.getMultiplier();
+        valueOfMul += value;
+        Multiplier = Color.getColorForMultiplier(value);
+        return true;
+    }
 }
