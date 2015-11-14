@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package linkingdimmers;
+package linkingdimmers.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class Resistor {
        Multiplier = stripes[stripes.length - 1];
    }
     
-    public double countResistence(int numberOfStripes) {
+    public double countResistence() {
         double valueOfresistance = 0.0;
         for (Color c : Bands) {
             valueOfresistance += c.getValue();

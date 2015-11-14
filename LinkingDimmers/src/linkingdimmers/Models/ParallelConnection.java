@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package linkingdimmers;
+package linkingdimmers.Models;
 
 /**
  *
@@ -19,19 +19,15 @@ public class ParallelConnection extends javax.swing.JPanel {
     }
     
     public ParallelConnection(Resistor[] _resistors) {
-        this.resistors = _resistors;
-        /
-                ]\=='
-        
-        \'
-        
+        this.resistors = _resistors;    
     }
     
-    public double countResistance() {
-        double reistanceToReturn = 0.0;
-        for (Resistor r : this.resistor\\s) {
-            
+    public double countResistance() {// wyliczanie oporu równoleglego
+        double resistanceToReturn = 0.0;
+        for (Resistor r : this.resistors) {
+            resistanceToReturn += 1.0/r.countResistence();
         }
+        return 1/resistanceToReturn;
     }
 
     /**
