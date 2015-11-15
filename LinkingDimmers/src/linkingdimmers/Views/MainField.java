@@ -117,15 +117,13 @@ public class MainField extends javax.swing.JFrame {
 
     private void SerialConnectionsAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SerialConnectionsAddButtonActionPerformed
         // TODO add your handling code here:
-        this.removeAll();
-        initComponents();
+        this.MainPanel.removeAll();
         Point initialPoint = new Point();
         initialPoint.x = 50;
         initialPoint.y = 50;
         SerialConnectionView scv =  new SerialConnectionView(initialPoint,(int)SerialConnectionsSpinner.getValue());
         this.MainPanel.add(scv);
         this.setVisible(true);
-        this.removeAll();
         this.repaint();
         
     }//GEN-LAST:event_SerialConnectionsAddButtonActionPerformed

@@ -5,6 +5,8 @@
  */
 package linkingdimmers.Views;
 
+import static Defaults.Const.RESISTOR_VIEW_HEIGHT;
+import static Defaults.Const.RESISTOR_VIEW_WIDTH;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -28,13 +30,13 @@ public class ParallelConnectionView extends JPanel {
         setLocation(initiallPoint.x, initiallPoint.y);
        // FlowLayout flow = new FlowLayout();
         //setLayout(null);
-        setPreferredSize(new Dimension(80, 500));
-        setMinimumSize(new Dimension(80, 500));
+        setPreferredSize(new Dimension(RESISTOR_VIEW_WIDTH, RESISTOR_VIEW_HEIGHT*10));
+        setMinimumSize(new Dimension(RESISTOR_VIEW_WIDTH, RESISTOR_VIEW_HEIGHT*10));
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.YELLOW));
         for (int i = 0;i<10; ++i) {
             this.add(new ResistorView(initiallPoint));
-            initiallPoint.y += 50;
+            initiallPoint.y += RESISTOR_VIEW_HEIGHT;
         }
         
     }

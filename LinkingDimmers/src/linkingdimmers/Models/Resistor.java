@@ -14,12 +14,12 @@ import java.util.List;
  * 
  */
 public class Resistor {
-    List<Color> Bands;
-    Color Multiplier;
+    List<StripeColor> Bands;
+    StripeColor Multiplier;
     
-    public Resistor (Color[] stripes) {
-       this.Bands = new ArrayList<Color>();
-       for (Color r : stripes) {
+    public Resistor (StripeColor[] stripes) {
+       this.Bands = new ArrayList<StripeColor>();
+       for (StripeColor r : stripes) {
            this.Bands.add(r);
        }
        Multiplier = stripes[stripes.length - 1];
@@ -27,7 +27,7 @@ public class Resistor {
     
     public double countResistence() {
         double valueOfresistance = 0.0;
-        for (Color c : Bands) {
+        for (StripeColor c : Bands) {
             valueOfresistance += c.getValue();
         }
         valueOfresistance *= Multiplier.getMultiplier();
@@ -43,14 +43,14 @@ public class Resistor {
         if (valueOfStripe > 9 || valueOfStripe < 0) {
             return false;
         }
-        Bands.set(indexOfStripe,Color.getColorForValue(valueOfStripe));
+        Bands.set(indexOfStripe,StripeColor.getStripeColorForValue(valueOfStripe));
         return true;
     }
     public boolean addValueToMultiplier(double value, int indexOfStripe) {
         
         double valueOfMul = Multiplier.getMultiplier();
         valueOfMul += value;
-        Multiplier = Color.getColorForMultiplier(value);
+        Multiplier = StripeColor.getColorForMultiplier(value);
         return true;
     }
 }

@@ -9,11 +9,11 @@ package linkingdimmers.Models;
  *
  * @author Filip
  */
-public enum Color {
+public enum StripeColor {
     BLACK(1),BROWN(2),RED(3),ORANGE(4),YELLOW(5),GREEN(6),BLUE(7),PURPLE(8),GREY(9),WHITE(10),GOLD(11),SILVER(12);
     
     private final int value;
-    private Color(int value) {
+    private StripeColor(int value) {
         this.value = value;
     }
 
@@ -21,8 +21,8 @@ public enum Color {
         return value;
     }
     
-    public static Color getColorForValue(int value) {
-        Color returnColor;
+    public static StripeColor getStripeColorForValue(int value) {
+        StripeColor returnColor;
         switch (value) {
             case (1):
                 returnColor = BLACK;
@@ -114,8 +114,8 @@ public enum Color {
         return valueToReturn;
     }
     
-    static Color getColorForMultiplier(double multiplier) {
-        Color colorToreturn;
+    static StripeColor getColorForMultiplier(double multiplier) {
+        StripeColor colorToreturn;
         if (multiplier == 1){
             colorToreturn = BLACK;
         } else if (multiplier == 10) {

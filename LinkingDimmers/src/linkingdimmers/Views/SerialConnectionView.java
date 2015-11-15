@@ -5,6 +5,8 @@
  */
 package linkingdimmers.Views;
 
+import static Defaults.Const.RESISTOR_VIEW_HEIGHT;
+import static Defaults.Const.RESISTOR_VIEW_WIDTH;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -26,13 +28,13 @@ public class SerialConnectionView extends JPanel {
         
         setBackground(Color.WHITE);
         setLocation(_initiallPoint.x, _initiallPoint.y);
-        setSize(100*numberOfConnections, 500);
+        setSize(RESISTOR_VIEW_WIDTH*numberOfConnections, 10*RESISTOR_VIEW_HEIGHT);
         setOpaque(true);
         setBorder(BorderFactory.createLineBorder(Color.WHITE));
         for (int i = 0; i<numberOfConnections; ++i) {
             ParallelConnectionView pcv = new ParallelConnectionView(initiallPoint);
             this.add(pcv);
-            initiallPoint.x += 100;
+            initiallPoint.x += RESISTOR_VIEW_WIDTH;
         }
     }
     
