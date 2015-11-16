@@ -65,11 +65,25 @@ public final class ResistorView extends JPanel {
             stripesUpButtons[i].setLocation(STRIPE_WIDTH*2*i + 32, 0);
             stripesUpButtons[i].setSize(new Dimension(10,10));
             
-            stripesUpButtons[i].addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    boolean addValueToBands = resistor.addValueToBands(1, i);
+            stripesUpButtons[i].addActionListener((ActionEvent e) -> {
+                JButton source = (JButton)e.getSource();
+                int index = 0;
+                for (int j = 0; j < stripesUpButtons.length; ++j) {
+                    if (stripesUpButtons[j] == source) {
+                        index = j;
+                    }
                 }
-            } );
+                boolean addValueToBands;
+                if (index == NUMBER_OF_STRIPES - 1) {
+                    addValueToBands = resistor.addValueToMultiplier(10, index);
+                    
+                } else {
+                    addValueToBands = resistor.addValueToBands(1, index);
+                }
+                this.repaint();
+                System.out.println("Button up at index: " + index + "pressed" );
+                
+            });
             
             stripesDownButtons[i] = new JButton(new ImageIcon(arrowDown));
             stripesDownButtons[i].setPreferredSize(new Dimension(10,10));
@@ -77,11 +91,25 @@ public final class ResistorView extends JPanel {
             stripesDownButtons[i].setSize(new Dimension(10,10));
             stripesDownButtons[i].setLocation(STRIPE_WIDTH*2*i + 32, RESISTOR_HEIGHT+30);
             
-            stripesDownButtons[i].addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    
+            stripesDownButtons[i].addActionListener((ActionEvent e) -> {
+                JButton source = (JButton)e.getSource();
+                int index = 0;
+                for (int j = 0; j < stripesDownButtons.length; ++j) {
+                    if (stripesDownButtons[j] == source) {
+                        index = j;
+                    }
                 }
-            } );
+                boolean addValueToBands;
+                if (index == NUMBER_OF_STRIPES - 1) {
+                    addValueToBands = resistor.addValueToMultiplier(0.1, index);
+                    
+                } else {
+                    addValueToBands = resistor.addValueToBands(-1, index);
+                }
+                this.repaint();
+                System.out.println("Button down at index: " + index + "pressed" );
+                    
+              });
             
             System.out.println("Stripe Up "+ "x: " + (STRIPE_WIDTH*2*i + 32) + "y: " + 0 );
             System.out.println("Stripe Down "+ "x: " + (STRIPE_WIDTH*2*i + 32) + "y: " + (RESISTOR_HEIGHT+30) );
@@ -91,13 +119,19 @@ public final class ResistorView extends JPanel {
        // this.invalidate();
     }
     @Override
-    protected void paintComponent(Graphics g) {
-        g.setColor(Color.gray);
-        g.fillRoundRect(22, 20, RESISTOR_WIDTH - 4, 
+    protected void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        float r = (float) (84.0/255.0);
+        float g = (float) (84.0/255);
+        float b = (float) (84.0/255.0);
+        Color grey = new Color(r,g,b);
+        graphics.setColor(grey);
+        graphics.fillRoundRect(22, 20, RESISTOR_WIDTH - 4, 
                            RESISTOR_HEIGHT - 4, 30, 30); 
         for (int i = 0; i < NUMBER_OF_STRIPES; ++i) {
-            g.setColor(Color.BLACK);
-            g.fillRect(STRIPE_WIDTH*2*i + 32, 20, STRIPE_WIDTH, RESISTOR_HEIGHT - 4);
+            Color c = resistor.colorOfStripeAtIndex(i);
+            graphics.setColor(c);
+            graphics.fillRect(STRIPE_WIDTH*2*i + 32, 20, STRIPE_WIDTH, RESISTOR_HEIGHT - 4);
         }
   }
 }

@@ -5,6 +5,8 @@
  */
 package linkingdimmers.Models;
 
+import java.awt.Color;
+
 /**
  *
  * @author Filip
@@ -19,6 +21,108 @@ public enum StripeColor {
 
     public int getValue() {
         return value;
+    }
+    
+    public static Color mapValueToColor(int value) {
+        Color returnColor;
+        switch (value) {
+            case (1):
+                returnColor = Color.BLACK;
+                break;
+            case (2):
+                float r = (float) (139.0/255.0);
+                float g = (float) (69.0/255.0);
+                float b = (float) (19.0/255.0);
+                returnColor = new Color(r,g,b);
+                break;
+            case(3):
+                returnColor = Color.RED;
+                break;
+            case (4):
+                returnColor = Color.ORANGE;
+                break;
+            case (5):
+                returnColor = Color.YELLOW;
+                break;
+            case (6):
+                returnColor = Color.GREEN;
+                break;
+            case (7):
+                returnColor = Color.BLUE;
+                break;
+            case (8):
+                r = (float) (147.0/255.0);
+                g = (float) (112.0/255);
+                b = (float) (219.0/255.0);
+                returnColor = new Color(r,g,b);
+                break;
+            case (9):
+                r = (float) (84.0/255.0);
+                g = (float) (84.0/255);
+                b = (float) (84.0/255.0);
+                returnColor = new Color(r,g,b);
+                break;
+            case (10):
+                returnColor = Color.WHITE;
+                break;
+            case (11):
+                r = (float) (184.0/255.0);
+                g = (float) (134.0/255);
+                b = (float) (11.0/255.0);
+                returnColor = new Color(r,g,b);
+                break;
+            case (12):
+                r = (float) (192.0/255.0);
+                g = (float) (192.0/255);
+                b = (float) (192.0/255.0);
+                returnColor = new Color(r,g,b);
+                break;
+            default:
+                returnColor = Color.BLACK;
+                break;
+        }
+        return returnColor;
+        
+    }
+    
+    static Color mapColorForMultiplier(double multiplier) {
+        Color colorToreturn;
+        if (multiplier == 1){
+            colorToreturn = Color.BLACK;
+        } else if (multiplier == 10) {
+            float r = (float) (139.0/255.0);
+            float g = (float) (69.0/255.0);
+            float b = (float) (19.0/255.0);
+            colorToreturn = new Color(r,g,b);
+        } else if (multiplier == 100){
+            colorToreturn = Color.RED;
+        } else if(multiplier == 1000) {
+            colorToreturn = Color.ORANGE;
+        } else if (multiplier == 10000) {
+            colorToreturn = Color.YELLOW;
+        }else if(multiplier == 100000) {
+            colorToreturn = Color.GREEN;
+        }else if(multiplier == 1000000) {
+            colorToreturn = Color.BLUE;
+        }else if (multiplier == 10000000) {
+            float r = (float) (147.0/255.0);
+            float g = (float) (112.0/255);
+            float b = (float) (219.0/255.0);
+            colorToreturn = new Color(r,g,b);
+        }else if (multiplier == 0.1) {
+            float r = (float) (184.0/255.0);
+            float g = (float) (134.0/255);
+            float b = (float) (11.0/255.0);
+            colorToreturn = new Color(r,g,b);
+        } else if (multiplier <= 0.01 && multiplier > 0.001) {
+            float r = (float) (192.0/255.0);
+            float g = (float) (192.0/255);
+            float b = (float) (192.0/255.0);
+            colorToreturn = new Color(r,g,b);
+        } else {
+            colorToreturn = Color.BLACK;
+        }
+        return colorToreturn;
     }
     
     public static StripeColor getStripeColorForValue(int value) {
@@ -95,12 +199,6 @@ public enum StripeColor {
             case(8):
                 valueToReturn = 10000000;
                 break;
-            case(9):
-                valueToReturn = 1;
-                break;
-            case(10):
-                valueToReturn = 1;
-                break;
             case(11):
                 valueToReturn = 0.1;
                 break;
@@ -114,7 +212,7 @@ public enum StripeColor {
         return valueToReturn;
     }
     
-    static StripeColor getColorForMultiplier(double multiplier) {
+    static StripeColor getStripeColorForMultiplier(double multiplier) {
         StripeColor colorToreturn;
         if (multiplier == 1){
             colorToreturn = BLACK;
@@ -134,7 +232,7 @@ public enum StripeColor {
             colorToreturn = PURPLE;
         }else if (multiplier == 0.1) {
             colorToreturn = GOLD;
-        } else if (multiplier == 0.01) {
+        } else if (multiplier < 0.1 && multiplier > 0.001) { // problem z dokladnoscią double
             colorToreturn = SILVER;
         } else {
             colorToreturn = BLACK;
