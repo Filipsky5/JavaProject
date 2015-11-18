@@ -5,20 +5,22 @@
  */
 package linkingdimmers.Models;
 
+import linkingdimmers.Views.ParallelConnectionView;
+
 /**
  *
  * @author Filip
  */
 public class SerialConnection {
-    private ParallelConnection[] parallelConnections;
+    private ParallelConnectionView[] parallelConnections;
     
-    public SerialConnection(ParallelConnection[] _parallelConnections) {
+    public SerialConnection(ParallelConnectionView[] _parallelConnections) {
         this.parallelConnections = _parallelConnections;
     }
     
     public double countResistance() {
         double resistance = 0.0;
-        for (ParallelConnection p : parallelConnections) {
+        for (ParallelConnectionView p : parallelConnections) {
             resistance += p.countResistance();
         }
         return resistance;

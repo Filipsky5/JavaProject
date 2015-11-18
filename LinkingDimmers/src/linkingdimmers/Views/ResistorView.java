@@ -27,7 +27,17 @@ public final class ResistorView extends JPanel {
     Point initailPoint;
     JPanel panel;
     Resistor resistor;
-    public ResistorView(Point _initialPoint) {
+    boolean isInitial;
+    public ResistorView (Point _initialPoint, boolean _isInitial) {
+        this.isInitial = _isInitial;
+        this.initViews(_initialPoint);
+    }
+//    public ResistorView(Point _initialPoint) {
+//        this.initViews(_initialPoint);
+//
+//        //setBorder(BorderFactory.createLineBorder(Color.WHITE));
+//    }
+    private void initViews(Point _initialPoint) {
         this.initailPoint = new Point(_initialPoint);
         //setBackground(Color.WHITE);
         this.setLayout(null);
@@ -46,8 +56,6 @@ public final class ResistorView extends JPanel {
             sc[i] = StripeColor.BLACK;
         }
         resistor = new Resistor(sc);
-
-        //setBorder(BorderFactory.createLineBorder(Color.WHITE));
     }
     private void addButtons() throws IOException {
         stripesUpButtons = new JButton[NUMBER_OF_STRIPES];
@@ -126,12 +134,41 @@ public final class ResistorView extends JPanel {
         float b = (float) (84.0/255.0);
         Color grey = new Color(r,g,b);
         graphics.setColor(grey);
-        graphics.fillRoundRect(22, 20, RESISTOR_WIDTH - 4, 
-                           RESISTOR_HEIGHT - 4, 30, 30); 
+        int resistorXPosition = 22;
+        int resistorYPosition = 20;
+        graphics.fillRoundRect(resistorXPosition, resistorYPosition, RESISTOR_WIDTH, 
+                           RESISTOR_HEIGHT, 30, 30); 
         for (int i = 0; i < NUMBER_OF_STRIPES; ++i) {
             Color c = resistor.colorOfStripeAtIndex(i);
             graphics.setColor(c);
-            graphics.fillRect(STRIPE_WIDTH*2*i + 32, 20, STRIPE_WIDTH, RESISTOR_HEIGHT - 4);
+            graphics.fillRect(STRIPE_WIDTH*2*i + resistorXPosition + 10, resistorYPosition, STRIPE_WIDTH, RESISTOR_HEIGHT);
         }
+        this.addWires(graphics,resistorXPosition,resistorYPosition);
   }
+    private void addWires(Graphics graphics, int resistorXPosition, int resistorYPosition) {
+        graphics.setColor(Color.BLACK);
+        int firstWirePoint = isInitial ? 0 : 5;
+        int middleYPositionOfResistor = resistorYPosition + (int)(RESISTOR_HEIGHT / 2.0);
+        
+        graphics.fillRect(firstWirePoint, middleYPositionOfResistor, resistorXPosition - firstWirePoint , 1); // left middle wire
+        
+        graphics.fillRect(5, middleYPositionOfResistor, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // left down wire
+        if (!isInitial) {
+            graphics.fillRect(5, middleYPositionOfResistor, 1, middleYPositionOfResistor - RESISTOR_VIEW_HEIGHT); // left up wire
+        }
+        
+        int rightMiddleWireXPosition = resistorXPosition + RESISTOR_WIDTH; 
+        graphics.fillRect(rightMiddleWireXPosition, middleYPositionOfResistor, RESISTOR_VIEW_WIDTH - rightMiddleWireXPosition , 1); // right middle wire
+        
+        graphics.fillRect(RESISTOR_VIEW_WIDTH - 5, middleYPositionOfResistor, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // right down wire
+        if (!isInitial) {
+            graphics.fillRect(RESISTOR_VIEW_WIDTH - 5, middleYPositionOfResistor, 1, middleYPositionOfResistor - RESISTOR_VIEW_HEIGHT); // right up wire
+        }
+        
+    }
+    
+    // Model
+    public double countResistance() {
+        return resistor.countResistence();
+    }
 }

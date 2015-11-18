@@ -6,12 +6,14 @@
 package linkingdimmers.Views;
 
 import java.awt.Point;
+import linkingdimmers.Models.Notifier;
+import linkingdimmers.Models.ResistanceListener;
 
 /**
  *
  * @author Filip
  */
-public class MainField extends javax.swing.JFrame {
+public class MainField extends javax.swing.JFrame implements ResistanceListener{
 
     /**
      * Creates new form MainField
@@ -19,6 +21,7 @@ public class MainField extends javax.swing.JFrame {
     public MainField() {
         initComponents();
     }
+    private Notifier notifier;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,9 +37,12 @@ public class MainField extends javax.swing.JFrame {
         SerialConnectionsSpinner = new javax.swing.JSpinner();
         SerialConnectionsAddButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        SummaryResistanceLabel = new javax.swing.JLabel();
+        ParallelConnectionsSpinner = new javax.swing.JSpinner();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(2000, 1000));
 
         MainPanel.setBackground(new java.awt.Color(0, 255, 51));
 
@@ -65,19 +71,35 @@ public class MainField extends javax.swing.JFrame {
 
         jLabel1.setText("Serial Connections");
 
+        jLabel2.setText("Summary Resistance");
+
+        SummaryResistanceLabel.setText("Rz");
+
+        ParallelConnectionsSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 7, 1));
+
+        jLabel3.setText("Parallel Connections");
+
         javax.swing.GroupLayout MenuPanelLayout = new javax.swing.GroupLayout(MenuPanel);
         MenuPanel.setLayout(MenuPanelLayout);
         MenuPanelLayout.setHorizontalGroup(
             MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuPanelLayout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
-                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(MenuPanelLayout.createSequentialGroup()
-                        .addComponent(SerialConnectionsAddButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(SerialConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(SummaryResistanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(MenuPanelLayout.createSequentialGroup()
+                            .addComponent(SerialConnectionsAddButton)
+                            .addGap(18, 18, 18)
+                            .addComponent(SerialConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
+            .addGroup(MenuPanelLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(ParallelConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         MenuPanelLayout.setVerticalGroup(
             MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,7 +110,15 @@ public class MainField extends javax.swing.JFrame {
                 .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SerialConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SerialConnectionsAddButton))
-                .addContainerGap(857, Short.MAX_VALUE))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(SummaryResistanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(ParallelConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(675, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -121,10 +151,16 @@ public class MainField extends javax.swing.JFrame {
         Point initialPoint = new Point();
         initialPoint.x = 50;
         initialPoint.y = 50;
-        SerialConnectionView scv =  new SerialConnectionView(initialPoint,(int)SerialConnectionsSpinner.getValue());
+        notifier = new Notifier();
+        notifier.addListener(this);
+        
+        SerialConnectionView scv =  new SerialConnectionView(initialPoint,(int)SerialConnectionsSpinner.getValue(),(int)ParallelConnectionsSpinner.getValue(), notifier);
+        Thread ballThread = new Thread(scv);
         this.MainPanel.add(scv);
         this.setVisible(true);
         this.repaint();
+        
+        ballThread.start();
         
     }//GEN-LAST:event_SerialConnectionsAddButtonActionPerformed
 
@@ -166,8 +202,25 @@ public class MainField extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainPanel;
     private javax.swing.JPanel MenuPanel;
+    private javax.swing.JSpinner ParallelConnectionsSpinner;
     private javax.swing.JButton SerialConnectionsAddButton;
     private javax.swing.JSpinner SerialConnectionsSpinner;
+    private javax.swing.JLabel SummaryResistanceLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void someoneSaidHello() {
+        System.out.println("Hello there...");
+    }
+
+    @Override
+    public void resistanceChanged(double resistance,double[] parallelResistance) {
+        SummaryResistanceLabel.setText(String.valueOf(resistance));
+    }
+    
+    
+
 }

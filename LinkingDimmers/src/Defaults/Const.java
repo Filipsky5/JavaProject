@@ -17,5 +17,6 @@ public class Const {
     public static final int RESISTOR_WIDTH = 90;
     public static final int STRIPE_WIDTH = 10;
     public static final int NUMBER_OF_STRIPES = 4;
+    public static final String RESISTANCE_NOTIFICATION = "ResitanceNotification";
     
 }
