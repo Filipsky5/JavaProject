@@ -79,6 +79,12 @@ public class SerialConnectionView extends JPanel implements Runnable{
     public void stop() {
         blinker = null;
     }
+    
+    public void allPositions() {
+         for (int i = 0; i<numberOfConnections; ++i) {
+             System.out.printf(String.valueOf(pcvArray[i].getX()));
+         }
+    }
 
     @Override
     public void run() {

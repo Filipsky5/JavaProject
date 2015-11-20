@@ -16,18 +16,17 @@ import javax.swing.BorderFactory;
  *
  * @author Filip
  */
-public class Ball extends JPanel implements Runnable{
+public class Ball extends JPanel {
      
-    int initialX;
-    int x;
-    int y;
+    public int initialX;
+    public int x;
+    public int y;
     public double road;
-    private double resistance;
-    double intensity;
-    double time;
+    public double resistance;
+    public double intensity;
+    public double time;
     String name;
     
-    private volatile Thread blinker;
     
 
     public synchronized void setNewResistance(double _resistance) {
@@ -56,37 +55,7 @@ public class Ball extends JPanel implements Runnable{
         //setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
   
-    public void run() {
-        
-  
-        name = Thread.currentThread().getName();
-        Thread thisThread = Thread.currentThread();
-        while (blinker == thisThread) {
-            double tension = intensity * getResistance();
-            x =  (int)(tension * time);
-            time +=0.5;
-            if (x > road) {
-                x = 0;
-                time = 0;
-            }
-           // x +=initialX;
-            System.out.println(name);
-            this.repaint();
-
-            try {
-                Thread.sleep(50);
-            } catch (Exception ex) {}
-        }
-    }
-    
-    public void start() {
-        blinker = new Thread(this);
-        blinker.start();
-    }
-    
-    public void stop() {
-        blinker = null;
-    }
+   
   
     @Override
     public void paintComponent(Graphics g) {
