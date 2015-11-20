@@ -23,6 +23,7 @@ public class Ball extends JPanel {
     public int y;
     public double road;
     public double resistance;
+    public double tension;
     public double intensity;
     public double time;
     String name;
@@ -38,19 +39,19 @@ public class Ball extends JPanel {
     }
 
     
-    public Ball(int _y,int _x, double _resistance, double _intensity, int _road) {
+    public Ball(int _y,int _x, double _resistance, double _tension, int _road) {
         this.y = _y;
         this.initialX = _x;
         this.resistance = _resistance;
-        this.intensity = _intensity;
+        this.tension = _tension;
         road = _road;
         
         this.setLayout(null);
         this.setLocation(_x, _y);
-        this.y = 5;
-        this.setSize(new Dimension((int) road,10));
+        this.y = 20 + (int)(RESISTOR_HEIGHT / 2.0);
+        this.setSize(new Dimension((int) road,100));
         setOpaque(true);
-        setBackground(new Color(0,0,0,64));
+        setBackground(new Color(0,1,(float)(51.0/255.0),1));
        
         //setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }
@@ -61,9 +62,13 @@ public class Ball extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         System.out.println(name+" "+x+" "+y);
-         
+        g.setColor(Color.BLACK);
+        g.fillRect(0,y,(int) this.road, 1);
+        g.fillRect(5, y, 1, RESISTOR_VIEW_HEIGHT - y);
+        g.fillRect((int) (this.road - 5), y, 1, RESISTOR_VIEW_HEIGHT - y); 
+        int r = 20;//(int)(50/230 * (tension / resistance));
         g.setColor(Color.orange);
-        g.fillOval(x,y,3,3);
+        g.fillOval(x, (int) (y - r / 2.0),r,r);
     }   
 }
 

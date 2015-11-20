@@ -15,6 +15,7 @@ public class PositionForBallCounter implements Runnable {
     Ball []balls;
     
     private volatile Thread blinker;
+    public volatile int tension;
     
     public PositionForBallCounter(Ball[] _balls) {
         balls = _balls;
@@ -25,12 +26,13 @@ public class PositionForBallCounter implements Runnable {
         Thread thisThread = Thread.currentThread();
         while (blinker == thisThread) {
             for (Ball b : balls) {
-                double tension = b.intensity * b.getResistance();
+                double intensity = tension * b.getResistance();
                 b.x =  (int)(tension * b.time);
-                b.time +=0.5;
+                b.time +=0.005;
                 if (b.x > b.road) {
                     b.x = 0;
                     b.time = 0;
+                    b.intensity = intensity;
                 }
                // x +=initialX;
                 b.repaint();

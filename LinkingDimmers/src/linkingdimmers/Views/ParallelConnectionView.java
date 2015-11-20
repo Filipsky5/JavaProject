@@ -66,7 +66,7 @@ public class ParallelConnectionView extends JPanel {
         
         this.add(removeButton);*/
         for (int i = 0;i<numberOfConnections; ++i) {
-            ResistorView resistor = new ResistorView(initiallPoint, i == 0);
+            ResistorView resistor = new ResistorView(initiallPoint, (i == 0));
             this.add(resistor);
             initiallPoint.y += RESISTOR_VIEW_HEIGHT;
             this.resistors.add(resistor);

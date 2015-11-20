@@ -51,6 +51,8 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         SummaryResistanceLabel = new javax.swing.JLabel();
         ParallelConnectionsSpinner = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
+        tensionLabel = new javax.swing.JLabel();
+        TensionSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,6 +91,20 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
 
         jLabel3.setText("Parallel Connections");
 
+        tensionLabel.setText("Tension");
+
+        TensionSpinner.setModel(new javax.swing.SpinnerNumberModel(1, 1, 230, 1));
+        TensionSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                TensionSpinnerStateChanged(evt);
+            }
+        });
+        TensionSpinner.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                TensionSpinnerPropertyChange(evt);
+            }
+        });
+
         javax.swing.GroupLayout MenuPanelLayout = new javax.swing.GroupLayout(MenuPanel);
         MenuPanel.setLayout(MenuPanelLayout);
         MenuPanelLayout.setHorizontalGroup(
@@ -97,14 +113,18 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(SummaryResistanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(MenuPanelLayout.createSequentialGroup()
+                            .addComponent(tensionLabel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(TensionSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(SummaryResistanceLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MenuPanelLayout.createSequentialGroup()
                             .addComponent(SerialConnectionsAddButton)
                             .addGap(18, 18, 18)
                             .addComponent(SerialConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
             .addGroup(MenuPanelLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
@@ -128,7 +148,11 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(ParallelConnectionsSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(675, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addGroup(MenuPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tensionLabel)
+                    .addComponent(TensionSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(620, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +230,20 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         
     }//GEN-LAST:event_SerialConnectionsAddButtonActionPerformed
 
+    private void TensionSpinnerPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_TensionSpinnerPropertyChange
+        // TODO add your handling code here:
+        if (pfbc!= null) {
+            pfbc.tension = (int) TensionSpinner.getValue();
+        }
+    }//GEN-LAST:event_TensionSpinnerPropertyChange
+
+    private void TensionSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_TensionSpinnerStateChanged
+        // TODO add your handling code here:
+        if (pfbc!= null) {
+            pfbc.tension = (int) TensionSpinner.getValue();
+        }
+    }//GEN-LAST:event_TensionSpinnerStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -248,9 +286,11 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
     private javax.swing.JButton SerialConnectionsAddButton;
     private javax.swing.JSpinner SerialConnectionsSpinner;
     private javax.swing.JLabel SummaryResistanceLabel;
+    private javax.swing.JSpinner TensionSpinner;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel tensionLabel;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -274,6 +314,7 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         int x = (RESISTOR_VIEW_WIDTH - RESISTOR_WIDTH) / 2;
         x = RESISTOR_WIDTH + x;
         int correct = 5;
+        int tension = (int) TensionSpinner.getValue();
         for (int i = 0 ; i < numberOfSerialConnections; ++i) {
             //int inititalPointX = i == 0 ? initialPointX : 0;
             Ball ball;
@@ -283,10 +324,10 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
             int width;
             if (i == numberOfSerialConnections - 1) {// if it is last
                 width = this.MainPanel.getWidth() - (x + RESISTOR_WIDTH);
-                ball = new Ball(97,xPosition,10,1,width);
+                ball = new Ball(60,xPosition,10,tension,width);
             } else {
                 width = xPositions[i+1] - xPositions[i] - 85;
-                ball = new Ball(97,xPosition,10,1,width);
+                ball = new Ball(60,xPosition,10,tension,width);
             }
             this.MainPanel.add(ball);
             balls[i] = ball;
