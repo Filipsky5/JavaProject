@@ -32,14 +32,10 @@ public final class ResistorView extends JPanel {
         this.isInitial = _isInitial;
         this.initViews(_initialPoint);
     }
-//    public ResistorView(Point _initialPoint) {
-//        this.initViews(_initialPoint);
-//
-//        //setBorder(BorderFactory.createLineBorder(Color.WHITE));
-//    }
+
     private void initViews(Point _initialPoint) {
         this.initailPoint = new Point(_initialPoint);
-        //setBackground(Color.WHITE);
+        //setBackground(BACKGROUND_COLOR);
         this.setLayout(null);
         setLocation(initailPoint.x, initailPoint.y);
         setSize(80, 40);

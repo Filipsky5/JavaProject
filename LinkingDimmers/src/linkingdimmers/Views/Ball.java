@@ -51,7 +51,7 @@ public class Ball extends JPanel {
         this.y = 20 + (int)(RESISTOR_HEIGHT / 2.0);
         this.setSize(new Dimension((int) road,100));
         setOpaque(true);
-        setBackground(new Color(0,1,(float)(51.0/255.0),1));
+        setBackground(BACKGROUND_COLOR);
        
         //setBorder(BorderFactory.createLineBorder(Color.BLUE));
     }

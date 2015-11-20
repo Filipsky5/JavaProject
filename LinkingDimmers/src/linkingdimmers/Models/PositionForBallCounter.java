@@ -13,9 +13,11 @@ import linkingdimmers.Views.Ball;
  */
 public class PositionForBallCounter implements Runnable {
     Ball []balls;
+    public volatile double [] resistance;
     
     private volatile Thread blinker;
     public volatile int tension;
+    public volatile int intensity;
     
     public PositionForBallCounter(Ball[] _balls) {
         balls = _balls;
@@ -25,9 +27,17 @@ public class PositionForBallCounter implements Runnable {
   
         Thread thisThread = Thread.currentThread();
         while (blinker == thisThread) {
-            for (Ball b : balls) {
-                double intensity = tension * b.getResistance();
-                b.x =  (int)(tension * b.time);
+            for (int i = 0; i < balls.length ; ++i) {
+                Ball b = balls[i];
+                double _resistance = 0.0;
+                if (resistance != null) {
+                    for (int j = 0; j <= i; ++j) {
+                        _resistance =+ resistance[j];
+                    }
+                }
+                //double intensity = tension * _resistance;
+                double localTension = intensity * _resistance; 
+                b.x =  (int) ((localTension / 1000) * b.time);
                 b.time +=0.005;
                 if (b.x > b.road) {
                     b.x = 0;

@@ -38,11 +38,10 @@ public class SerialConnectionView extends JPanel implements Runnable{
         this.initiallPoint = new Point(_initiallPoint);
         numberOfConnections = _numberOfConnections;
         
-        setBackground(Color.WHITE);
+        setBackground(BACKGROUND_COLOR);
         setLocation(_initiallPoint.x, _initiallPoint.y);
         setSize(RESISTOR_VIEW_WIDTH*numberOfConnections + numberOfConnections*10, 10*RESISTOR_VIEW_HEIGHT);
         setOpaque(true);
-        setBorder(BorderFactory.createLineBorder(Color.WHITE));
         BorderLayout bl = new BorderLayout(0,0);
         pcvArray = new ParallelConnectionView[numberOfConnections];
         for (int i = 0; i<numberOfConnections; ++i) {
