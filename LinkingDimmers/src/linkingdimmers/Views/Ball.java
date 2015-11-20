@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import static Defaults.Const.*;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import javax.swing.BorderFactory;
 
 /**
@@ -61,14 +63,16 @@ public class Ball extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         System.out.println(name+" "+x+" "+y);
-        g.setColor(Color.BLACK);
-        g.fillRect(0,y,(int) this.road, 1);
-        g.fillRect(5, y, 1, RESISTOR_VIEW_HEIGHT - y);
-        g.fillRect((int) (this.road - 5), y, 1, RESISTOR_VIEW_HEIGHT - y); 
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0,y,(int) this.road, 1);
+        g2d.fillRect(15, y, 1, RESISTOR_VIEW_HEIGHT - y);
+        g2d.fillRect((int) (this.road - 20), y, 1, RESISTOR_VIEW_HEIGHT - y); 
         int r = 20;//(int)(50/230 * (tension / resistance));
-        g.setColor(Color.orange);
-        g.fillOval(x, (int) (y - r / 2.0),r,r);
+        g2d.setColor(Color.orange);
+        g2d.fillOval(x, (int) (y - r / 2.0),r,r);
     }   
 }
 

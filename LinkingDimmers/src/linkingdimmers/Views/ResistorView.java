@@ -125,23 +125,25 @@ public final class ResistorView extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
+        Graphics2D g2d = (Graphics2D)graphics;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         float r = (float) (84.0/255.0);
         float g = (float) (84.0/255);
         float b = (float) (84.0/255.0);
         Color grey = new Color(r,g,b);
-        graphics.setColor(grey);
+        g2d.setColor(grey);
         int resistorXPosition = 22;
         int resistorYPosition = 20;
-        graphics.fillRoundRect(resistorXPosition, resistorYPosition, RESISTOR_WIDTH, 
+        g2d.fillRoundRect(resistorXPosition, resistorYPosition, RESISTOR_WIDTH, 
                            RESISTOR_HEIGHT, 30, 30); 
         for (int i = 0; i < NUMBER_OF_STRIPES; ++i) {
             Color c = resistor.colorOfStripeAtIndex(i);
-            graphics.setColor(c);
-            graphics.fillRect(STRIPE_WIDTH*2*i + resistorXPosition + 10, resistorYPosition, STRIPE_WIDTH, RESISTOR_HEIGHT);
+            g2d.setColor(c);
+            g2d.fillRect(STRIPE_WIDTH*2*i + resistorXPosition + 10, resistorYPosition, STRIPE_WIDTH, RESISTOR_HEIGHT);
         }
-        this.addWires(graphics,resistorXPosition,resistorYPosition);
+        this.addWires(g2d,resistorXPosition,resistorYPosition);
   }
-    private void addWires(Graphics graphics, int resistorXPosition, int resistorYPosition) {
+    private void addWires(Graphics2D graphics, int resistorXPosition, int resistorYPosition) {
         graphics.setColor(Color.BLACK);
         int firstWirePoint = isInitial ? 0 : 5;
         int middleYPositionOfResistor = resistorYPosition + (int)(RESISTOR_HEIGHT / 2.0);
@@ -149,17 +151,19 @@ public final class ResistorView extends JPanel {
         graphics.fillRect(firstWirePoint, middleYPositionOfResistor, resistorXPosition - firstWirePoint , 1); // left middle wire
         
         graphics.fillRect(5, middleYPositionOfResistor, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // left down wire
-        if (!isInitial) {
-            graphics.fillRect(5, middleYPositionOfResistor, 1, middleYPositionOfResistor - RESISTOR_VIEW_HEIGHT); // left up wire
-        }
+        
+        graphics.fillRect(5, 0, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // left up wire
+        
         
         int rightMiddleWireXPosition = resistorXPosition + RESISTOR_WIDTH; 
         graphics.fillRect(rightMiddleWireXPosition, middleYPositionOfResistor, RESISTOR_VIEW_WIDTH - rightMiddleWireXPosition , 1); // right middle wire
         
         graphics.fillRect(RESISTOR_VIEW_WIDTH - 5, middleYPositionOfResistor, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // right down wire
-        if (!isInitial) {
-            graphics.fillRect(RESISTOR_VIEW_WIDTH - 5, middleYPositionOfResistor, 1, middleYPositionOfResistor - RESISTOR_VIEW_HEIGHT); // right up wire
-        }
+        
+        
+        
+        graphics.fillRect(RESISTOR_VIEW_WIDTH - 5, 0, 1, RESISTOR_VIEW_HEIGHT - middleYPositionOfResistor); // right up wire
+        
         
     }
     
