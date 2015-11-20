@@ -12,7 +12,7 @@ import java.awt.Color;
  * @author Filip
  */
 public enum StripeColor {
-    BLACK(1),BROWN(2),RED(3),ORANGE(4),YELLOW(5),GREEN(6),BLUE(7),PURPLE(8),GREY(9),WHITE(10),GOLD(11),SILVER(12);
+    BLACK(0),BROWN(1),RED(2),ORANGE(3),YELLOW(4),GREEN(5),BLUE(6),PURPLE(7),GREY(8),WHITE(9),GOLD(10),SILVER(11);
     
     private final int value;
     private StripeColor(int value) {
@@ -26,52 +26,52 @@ public enum StripeColor {
     public static Color mapValueToColor(int value) {
         Color returnColor;
         switch (value) {
-            case (1):
+            case (0):
                 returnColor = Color.BLACK;
                 break;
-            case (2):
+            case (1):
                 float r = (float) (139.0/255.0);
                 float g = (float) (69.0/255.0);
                 float b = (float) (19.0/255.0);
                 returnColor = new Color(r,g,b);
                 break;
-            case(3):
+            case(2):
                 returnColor = Color.RED;
                 break;
-            case (4):
+            case (3):
                 returnColor = Color.ORANGE;
                 break;
-            case (5):
+            case (4):
                 returnColor = Color.YELLOW;
                 break;
-            case (6):
+            case (5):
                 returnColor = Color.GREEN;
                 break;
-            case (7):
+            case (6):
                 returnColor = Color.BLUE;
                 break;
-            case (8):
+            case (7):
                 r = (float) (147.0/255.0);
                 g = (float) (112.0/255);
                 b = (float) (219.0/255.0);
                 returnColor = new Color(r,g,b);
                 break;
-            case (9):
+            case (8):
                 r = (float) (84.0/255.0);
                 g = (float) (84.0/255);
                 b = (float) (84.0/255.0);
                 returnColor = new Color(r,g,b);
                 break;
-            case (10):
+            case (9):
                 returnColor = Color.WHITE;
                 break;
-            case (11):
+            case (10):
                 r = (float) (184.0/255.0);
                 g = (float) (134.0/255);
                 b = (float) (11.0/255.0);
                 returnColor = new Color(r,g,b);
                 break;
-            case (12):
+            case (11):
                 r = (float) (192.0/255.0);
                 g = (float) (192.0/255);
                 b = (float) (192.0/255.0);
@@ -128,40 +128,40 @@ public enum StripeColor {
     public static StripeColor getStripeColorForValue(int value) {
         StripeColor returnColor;
         switch (value) {
-            case (1):
+            case (0):
                 returnColor = BLACK;
                 break;
-            case (2):
+            case (1):
                 returnColor = BROWN;
                 break;
-            case(3):
+            case(2):
                 returnColor = RED;
                 break;
-            case (4):
+            case (3):
                 returnColor = ORANGE;
                 break;
-            case (5):
+            case (4):
                 returnColor = YELLOW;
                 break;
-            case (6):
+            case (5):
                 returnColor = GREEN;
                 break;
-            case (7):
+            case (6):
                 returnColor = BLUE;
                 break;
-            case (8):
+            case (7):
                 returnColor = PURPLE;
                 break;
-            case (9):
+            case (8):
                 returnColor = GREY;
                 break;
-            case (10):
+            case (9):
                 returnColor = WHITE;
                 break;
-            case (11):
+            case (10):
                 returnColor = GOLD;
                 break;
-            case (12):
+            case (11):
                 returnColor = SILVER;
                 break;
             default:
@@ -175,34 +175,34 @@ public enum StripeColor {
     public double getMultiplier() {
         double valueToReturn;
         switch (value) {
-            case(1):
+            case(0):
                 valueToReturn = 1;
                 break;
-            case(2):
+            case(1):
                 valueToReturn = 10;
                 break;
-            case(3):
+            case(2):
                 valueToReturn = 100;
                 break;
-            case(4):
+            case(3):
                 valueToReturn = 1000;
                 break;
-            case(5):
+            case(4):
                 valueToReturn = 10000;
                 break;
-            case(6):
+            case(5):
                 valueToReturn = 100000;
                 break;
-            case(7):
+            case(6):
                 valueToReturn = 1000000;
                 break;
-            case(8):
+            case(7):
                 valueToReturn = 10000000;
                 break;
-            case(11):
+            case(10):
                 valueToReturn = 0.1;
                 break;
-            case(12):
+            case(11):
                 valueToReturn = 0.01;
                 break;
             default:

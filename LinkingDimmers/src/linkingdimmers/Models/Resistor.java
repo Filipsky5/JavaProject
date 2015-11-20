@@ -30,8 +30,16 @@ public class Resistor {
     
     public double countResistence() {
         double valueOfresistance = 0.0;
-        for (StripeColor c : Bands) {
-            valueOfresistance += c.getValue();
+        for (int i = 0; i < 3; ++i) {
+            StripeColor c = Bands.get(i);
+            if (i == 0) {
+                valueOfresistance += c.getValue()* 100;
+            } else if (i == 1) {
+                valueOfresistance += c.getValue()* 10;
+            } else {
+                valueOfresistance += c.getValue()* 1;
+            }
+            
         }
         valueOfresistance *= Multiplier.getMultiplier();
         return valueOfresistance;

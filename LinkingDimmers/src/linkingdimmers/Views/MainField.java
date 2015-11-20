@@ -5,6 +5,8 @@
  */
 package linkingdimmers.Views;
 
+import static Defaults.Const.RESISTOR_VIEW_WIDTH;
+import static Defaults.Const.RESISTOR_WIDTH;
 import java.awt.Point;
 import linkingdimmers.Models.Notifier;
 import linkingdimmers.Models.ResistanceListener;
@@ -22,6 +24,8 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         initComponents();
     }
     private Notifier notifier;
+    private Ball[] balls;
+    private SerialConnectionView scv;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -145,22 +149,63 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void stopBallsThreads() {
+        if (balls != null) {
+            for (Ball b : balls) {
+                b.stop();
+            }
+        }
+    }
+    private void startAllThreads() {
+        if (balls != null) {
+            for (Ball b : balls) {
+                b.start();
+            }
+        }
+        
+    }
     private void SerialConnectionsAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SerialConnectionsAddButtonActionPerformed
         // TODO add your handling code here:
+        if (scv != null) {
+            scv.stop();
+        }
         this.MainPanel.removeAll();
+//        this.stopBallsThreads();
         Point initialPoint = new Point();
         initialPoint.x = 50;
         initialPoint.y = 50;
         notifier = new Notifier();
         notifier.addListener(this);
         
-        SerialConnectionView scv =  new SerialConnectionView(initialPoint,(int)SerialConnectionsSpinner.getValue(),(int)ParallelConnectionsSpinner.getValue(), notifier);
-        Thread ballThread = new Thread(scv);
+        int numberOfSerialConnections = (int)SerialConnectionsSpinner.getValue();
+        balls = new Ball[numberOfSerialConnections];
+        
+         scv =  new SerialConnectionView(initialPoint,numberOfSerialConnections,(int)ParallelConnectionsSpinner.getValue(), notifier);
+        scv.start();
         this.MainPanel.add(scv);
+        
+        int x = (RESISTOR_VIEW_WIDTH - RESISTOR_WIDTH) / 2;
+        x = RESISTOR_WIDTH + x;
+//        for (int i = 0 ; i < numberOfSerialConnections; ++i) {
+//            Ball ball;
+//            double widthOfPreviousWire = i > 0 ? balls[i-1].road : 0.0;
+//            int xPosition = (int)widthOfPreviousWire + 60 + x + i*RESISTOR_WIDTH;
+//            
+//            if (i == numberOfSerialConnections - 1) {// if it is last
+//                int width = this.MainPanel.getWidth() - 60 + x + RESISTOR_WIDTH - 50;
+//                ball = new Ball(97,xPosition,10,1,width);
+//            } else {
+//                ball = new Ball(97,xPosition,10,1,45);
+//            }
+//            this.MainPanel.add(ball);
+//            balls[i] = ball;
+//        }
         this.setVisible(true);
+//        startAllThreads();
         this.repaint();
         
-        ballThread.start();
+       
+        
         
     }//GEN-LAST:event_SerialConnectionsAddButtonActionPerformed
 

@@ -27,9 +27,12 @@ public class ParallelConnection {
     public double countResistance() {// wyliczanie oporu równoleglego
         double resistanceToReturn = 0.0;
         for (ResistorView r : this.resistors) {
-            resistanceToReturn += 1.0/r.countResistance();
+            double resistance = r.countResistance();
+            if (resistance != 0) {
+                resistanceToReturn += 1.0/r.countResistance();
+            }
         }
-        return 1/resistanceToReturn;
+        return resistanceToReturn == 0 ? 0 : 1/resistanceToReturn;
     }
   
 }

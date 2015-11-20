@@ -30,6 +30,9 @@ public class SerialConnectionView extends JPanel implements Runnable{
     Notifier notifier;
     ParallelConnectionView []pcvArray;
     SerialConnection serialConnection;
+    
+    private volatile Thread blinker;
+    
     public SerialConnectionView(Point _initiallPoint, int _numberOfConnections, int parallelConnections, Notifier _notifier) {
         JPanel serialPanel = new JPanel();
         this.initiallPoint = new Point(_initiallPoint);
@@ -67,11 +70,21 @@ public class SerialConnectionView extends JPanel implements Runnable{
          }
         return valuesToReturn;
     }
+    
+     public void start() {
+        blinker = new Thread(this);
+        blinker.start();
+    }
+    
+    public void stop() {
+        blinker = null;
+    }
 
     @Override
     public void run() {
         double resistance = 0.0;
-        while(true){
+        Thread thisThread = Thread.currentThread();
+        while (blinker == thisThread) {
             resistance = countResistance();
             notifier.sendResistornotificationWithValue(resistance,countEachParallelResitance());
            
