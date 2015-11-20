@@ -7,6 +7,8 @@ package linkingdimmers.Views;
 
 import static Defaults.Const.RESISTOR_VIEW_WIDTH;
 import static Defaults.Const.RESISTOR_WIDTH;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import linkingdimmers.Models.Notifier;
 import linkingdimmers.Models.PositionForBallCounter;
@@ -28,6 +30,8 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
     private Ball[] balls;
     private SerialConnectionView scv;
     PositionForBallCounter pfbc;
+    int numberOfSerialConnections;
+    int initialPointX;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -174,15 +178,17 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         if (pfbc != null) {
             pfbc.stop();
         }
+        pfbc = null;
         this.MainPanel.removeAll();
 //        this.stopBallsThreads();
         Point initialPoint = new Point();
         initialPoint.x = 50;
         initialPoint.y = 50;
+        initialPointX = initialPoint.x;
         notifier = new Notifier();
         notifier.addListener(this);
         
-        int numberOfSerialConnections = (int)SerialConnectionsSpinner.getValue();
+        numberOfSerialConnections = (int)SerialConnectionsSpinner.getValue();
         balls = new Ball[numberOfSerialConnections];
         
          scv =  new SerialConnectionView(initialPoint,numberOfSerialConnections,(int)ParallelConnectionsSpinner.getValue(), notifier);
@@ -190,27 +196,7 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
         this.MainPanel.add(scv);
         scv.allPositions();
         this.pack();
-        int x = (RESISTOR_VIEW_WIDTH - RESISTOR_WIDTH) / 2;
-        x = RESISTOR_WIDTH + x;
-        int correct = 5;
-        for (int i = 0 ; i < numberOfSerialConnections; ++i) {
-            int inititalPointX = i == 0 ? initialPoint.x : 0;
-            Ball ball;
-            double widthOfPreviousWire = i > 0 ? balls[i-1].road : 0.0;
-            int previousX = i > 0 ? balls[i-1].initialX : 20;
-            int xPosition =inititalPointX +(int)widthOfPreviousWire+previousX+RESISTOR_WIDTH+correct;//(int)widthOfPreviousWire + 60 + x + i*RESISTOR_WIDTH;
-            
-            if (i == numberOfSerialConnections - 1) {// if it is last
-                int width = this.MainPanel.getWidth() - (x + RESISTOR_WIDTH);
-                ball = new Ball(97,xPosition,10,1,width);
-            } else {
-                ball = new Ball(97,xPosition,10,1,45);
-            }
-            this.MainPanel.add(ball);
-            balls[i] = ball;
-        }
-        PositionForBallCounter pfbc = new PositionForBallCounter(balls);
-        pfbc.start();
+        
         this.setVisible(true);
 //        startAllThreads();
         this.repaint();
@@ -276,7 +262,38 @@ public class MainField extends javax.swing.JFrame implements ResistanceListener{
     public void resistanceChanged(double resistance,double[] parallelResistance) {
         SummaryResistanceLabel.setText(String.valueOf(resistance));
     }
+    @Override
+    public void graphicsLoaded() {
+        if (pfbc == null) {
+            this.addWires(numberOfSerialConnections, initialPointX);
+        }
+    }
     
+    public void addWires(int numberOfSerialConnections, int initialPointX) {
+        int []xPositions = scv.allPositions();
+        int x = (RESISTOR_VIEW_WIDTH - RESISTOR_WIDTH) / 2;
+        x = RESISTOR_WIDTH + x;
+        int correct = 5;
+        for (int i = 0 ; i < numberOfSerialConnections; ++i) {
+            //int inititalPointX = i == 0 ? initialPointX : 0;
+            Ball ball;
+            double widthOfPreviousWire = i > 0 ? balls[i-1].road : 0.0;
+            int previousX = i > 0 ? balls[i-1].initialX : 20;
+            int xPosition =initialPointX + xPositions[i] + 110;//inititalPointX +(int)widthOfPreviousWire+previousX+RESISTOR_WIDTH+correct;//(int)widthOfPreviousWire + 60 + x + i*RESISTOR_WIDTH;
+            int width;
+            if (i == numberOfSerialConnections - 1) {// if it is last
+                width = this.MainPanel.getWidth() - (x + RESISTOR_WIDTH);
+                ball = new Ball(97,xPosition,10,1,width);
+            } else {
+                width = xPositions[i+1] - xPositions[i] - 85;
+                ball = new Ball(97,xPosition,10,1,width);
+            }
+            this.MainPanel.add(ball);
+            balls[i] = ball;
+        }
+        pfbc = new PositionForBallCounter(balls);
+        pfbc.start();
+    }
     
 
 }

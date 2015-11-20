@@ -31,5 +31,9 @@ public class Notifier {
             hl.resistanceChanged(resistance,parallelConnection);
 
     }
+    public void graphicsCreated() {
+         for (ResistanceListener hl : listeners)
+            hl.graphicsLoaded();
+    }
 
 }

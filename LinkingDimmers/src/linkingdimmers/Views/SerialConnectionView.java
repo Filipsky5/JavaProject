@@ -57,6 +57,7 @@ public class SerialConnectionView extends JPanel implements Runnable{
     
     @Override
     protected void paintComponent(Graphics g) {
+       notifier.graphicsCreated();
      
     }
     private double countResistance() {
@@ -80,10 +81,13 @@ public class SerialConnectionView extends JPanel implements Runnable{
         blinker = null;
     }
     
-    public void allPositions() {
+    public int[] allPositions() {
+        int []xPositions = new int [numberOfConnections];
          for (int i = 0; i<numberOfConnections; ++i) {
              System.out.printf(String.valueOf(pcvArray[i].getX()));
+             xPositions[i] = pcvArray[i].getX();
          }
+         return xPositions;
     }
 
     @Override

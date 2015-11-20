@@ -14,5 +14,6 @@ public interface ResistanceListener {
     void someoneSaidHello();
     //void resistanceChanged(double resistance);
      void resistanceChanged(double resistance, double[] parallelResistance);
+     void graphicsLoaded();
 
 }
